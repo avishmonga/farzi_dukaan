@@ -37,7 +37,7 @@ const userScheama = new mongoose.Schema({
     default: "user",
   },
   resetPasswordToken: String,
-  resetPasswordExpire: Date,
+  resetPasswordExpire: {type:Date},
 });
 
 userScheama.pre("save", async function (next) {
@@ -66,11 +66,14 @@ userScheama.methods.getForgotPasswordToken = async function () {
       .update(resetToken)
       .digest("hex");
 
-    this.resetPasswordExpire = Date.now + 15 * 60 * 1000;
+    this.resetPasswordExpire = Date.now() + 15 * 60 * 1000
+
+    console.log("this.resetPasswordExpire",this.resetPasswordExpire)
+    console.log("this.resetPasswordToken",this.resetPasswordToken)
 
     return resetToken;
   } catch (err) {
-    return next(new ErrorHandler(err, 500));
+    console.log(err)
   }
 };
 

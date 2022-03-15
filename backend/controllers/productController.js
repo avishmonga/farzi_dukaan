@@ -37,6 +37,7 @@ exports.getProductDetails = async (req, res,next) => {
 
 exports.createProduct = async (req, res,next) => {
   try {
+    req.body.user = req.user.id
     const product = await Product.create(req.body);
     res.status(201).send({
       success: true,

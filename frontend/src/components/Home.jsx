@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import Product from './Product'
-
+import MetaData from './MetaData'
 const product = {
     name:"Blue Tshirt",
     price:3000,
@@ -12,6 +12,7 @@ const product = {
 function Home() {
   return (
     <>
+    <MetaData title="Farzi Dukaan" />
     <Banner>
         <img src="https://user-images.githubusercontent.com/80064807/158645366-333a156f-e2e6-4202-b35c-97e2e688232d.jpg" />
     </Banner>

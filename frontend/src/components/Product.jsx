@@ -35,6 +35,11 @@ export default Product
 
 const Wrapper = styled(Link)`
 text-decoration: none;
+@media screen and (max-width:600px){
+width:40%;
+margin: auto;
+}
+
 `
 const Container = styled.div`
 width: 18vmax;
@@ -70,11 +75,16 @@ span{
 }
 
 @media screen and (max-width:600px){
+    width:100%;
+
     p{
         font-size: 1.7vmax;
     }
     span{
         font-size: 1.5vmax;
+    }
+    img{
+        width:100%;
     }
     border: 1px solid red;
 }
@@ -85,7 +95,7 @@ const Wrap = styled.div`
 width: 100%;
 margin: 0.5vmax;
 display: flex;
-justify-content: flex-start;
+/* justify-content: flex-start; */
 
 span{
     margin-left: 0.5vmax;

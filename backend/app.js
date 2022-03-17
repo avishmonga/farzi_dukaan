@@ -8,9 +8,9 @@ const orderRoute = require("./routes/orderRoute");
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/", productRoute);
-app.use("/", userRoute);
-app.use("/", orderRoute);
+app.use("/api/", productRoute);
+app.use("/api/", userRoute);
+app.use("/api/", orderRoute);
 
 app.use(errorMiddleware);
 module.exports = app;

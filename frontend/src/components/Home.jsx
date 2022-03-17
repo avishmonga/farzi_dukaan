@@ -1,7 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import Product from './Product'
 import MetaData from './MetaData'
+import { getProduct } from '../store/Actions/ProductAction'
+ 
+import { useDispatch } from 'react-redux';
+
+
+
 const product = {
     name:"Blue Tshirt",
     price:3000,
@@ -10,6 +16,12 @@ const product = {
 }
 
 function Home() {
+    const dispatch = useDispatch()
+    useEffect(()=>{
+
+        dispatch(getProduct())
+
+    },[dispatch])
   return (
     <>
     <MetaData title="Farzi Dukaan" />

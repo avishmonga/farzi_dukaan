@@ -4,6 +4,8 @@ import { Route,Routes } from "react-router-dom";
 import webfont from 'webfontloader'
 import { useEffect } from "react";
 import Home from "./components/Home";
+import Loader from "./components/Loader";
+import ProductDetils from "./components/ProductDetils";
 function App() {
   useEffect(()=>{
     webfont.load({
@@ -19,6 +21,7 @@ function App() {
       <Routes>
       
         <Route path="/" element={<Home />}></Route>
+        <Route path="/product/:id" element={<ProductDetils />}></Route>
 
       </Routes>
     </div>

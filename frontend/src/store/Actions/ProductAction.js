@@ -4,6 +4,9 @@ import {
     ALL_PRODUCT_FAIL,
     ALL_PRODUCT_REQ,
     ALL_PRODUCT_SUCCESS,
+    PRODUCT_DETAILS_FAIL,
+    PRODUCT_DETAILS_SUCCESS,
+    PRODUCT_DETAILS_REQ,
     CLEAR_ERRORS,
   } from "../AcrionTypes/ProductActionTypes";
 
@@ -25,6 +28,26 @@ import {
           })
       }
   }
+ 
+
+  export const  getProductDetail = (id)=> async(dispatch)=>{
+    try {
+        dispatch({
+            type:PRODUCT_DETAILS_REQ
+        })
+        const data = await axios.get(`/api/product/${id}`)
+        console.log("data",data)
+        dispatch({
+            type:PRODUCT_DETAILS_SUCCESS,
+            payload:data.data
+        })
+    } catch (error) {
+        dispatch({
+            type:PRODUCT_DETAILS_FAIL,
+            payload:error.response.data.message
+        })
+    }
+}
 
   export const  clearErrors = ()=> async(dispatch)=>{
 

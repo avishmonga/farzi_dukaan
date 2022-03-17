@@ -2,24 +2,26 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import ReactStarts from "react-rating-stars-component"
 import styled from 'styled-components'
-const options = {
-    edit:false,
-    color:"rgba(20,20,20,0.1)",
-    activeColor:"tomato",
-    size:window.innerWidth < 600 ? 10 : 25,
-    value:2.5,
-    isHalf:true
-}
+
 function Product({product}) {
+    const options = {
+        edit:false,
+        color:"rgba(20,20,20,0.1)",
+        activeColor:"tomato",
+        size:window.innerWidth < 600 ? 10 : 25,
+        value:product.ratings,
+        isHalf:true
+    }
+    console.log(product)
   return (
-    <Wrapper className='card' to={product._id}>
+    <Wrapper className='card' to={`product/${product._id}`}>
         <Container>
 
-        <img  src={product.images[0].url} alt={product.name} />
+        <img  src={product.image[0].url} alt={product.name} />
         <p>{product.name}</p>
 
         <Wrap>
-            <ReactStarts {...options} /> <span>(250 Reviews)</span>
+            <ReactStarts {...options} /> <span>({product.numOfReviews} Reviews)</span>
         </Wrap>
         <span>₹{product.price}</span>
 

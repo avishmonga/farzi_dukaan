@@ -2,23 +2,54 @@ import {
   ALL_PRODUCT_FAIL,
   ALL_PRODUCT_REQ,
   ALL_PRODUCT_SUCCESS,
+  PRODUCT_DETAILS_FAIL,
+  PRODUCT_DETAILS_REQ,
+  PRODUCT_DETAILS_SUCCESS,
   CLEAR_ERRORS,
 } from "../AcrionTypes/ProductActionTypes";
 
-export const productReducer = (state = { product: [] }, action) => {
+export const productReducer = (state = { products: [] }, action) => {
   switch (action.type) {
     case ALL_PRODUCT_REQ:
       return {
         loading: true,
-        product: [],
+        products: [],
       };
     case ALL_PRODUCT_SUCCESS:
       return {
         loading: false,
-        product: action.payload.products,
+        products: action.payload.products,
         productsCount: action.payload.productsCount,
       };
     case ALL_PRODUCT_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+//detailProduct Reducer
+export const detalProductReducer = (state = { product: {} }, action) => {
+  switch (action.type) {
+    case PRODUCT_DETAILS_REQ:
+      return {
+        loading: true,
+        ...state,
+      };
+    case PRODUCT_DETAILS_SUCCESS:
+      return {
+        loading: false,
+        product: action.payload,
+      };
+    case PRODUCT_DETAILS_FAIL:
       return {
         loading: false,
         error: action.payload,

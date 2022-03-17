@@ -4,14 +4,14 @@ const ApiFeature = require("../utils/apiFeatures");
 //getallProducts
 exports.getallproducts = async (req, res) => {
   try {
-    const productCount = await Product.countDocuments();
+    const productsCount = await Product.countDocuments();
     const apiFeature = new ApiFeature(Product.find(), req.query)
       .search()
       .filter()
-      .pagination(5);
+      .pagination(8);
     const products = await apiFeature.query;
 
-    res.status(200).send({ success:true, products, productCount });
+    res.status(200).send({ success:true, products, productsCount });
   } catch {
     console.log("Something Went Wrong getProduct");
     res.status(400).json({ message: "Something Went Wrong" });

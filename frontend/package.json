@@ -19,6 +19,7 @@
     "react-dom": "^17.0.2",
     "react-helmet": "^6.1.0",
     "react-icons": "^4.3.1",
+    "react-js-pagination": "^3.0.3",
     "react-material-ui-carousel": "^3.2.0",
     "react-rating-stars-component": "^2.2.0",
     "react-redux": "^7.2.6",
@@ -54,6 +55,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ],
-    "proxy":"http://192.168.31.67:3000"
+    "proxy": "http://192.168.31.67:3000"
   }
 }

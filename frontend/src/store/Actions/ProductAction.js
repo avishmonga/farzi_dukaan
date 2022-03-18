@@ -11,13 +11,14 @@ import {
   } from "../AcrionTypes/ProductActionTypes";
 
 
-  export const  getProduct = (keyword="")=> async(dispatch)=>{
+  export const  getProduct = (keyword="",currPage = 1)=> async(dispatch)=>{
       try {
           dispatch({
               type:ALL_PRODUCT_REQ
           })
-          let link= `/api/products?keyword=${keyword}`
+          let link= `/api/products?keyword=${keyword}&page=${currPage}`
           const data = await axios.get(link)
+          console.log("data",data)
           dispatch({
               type:ALL_PRODUCT_SUCCESS,
               payload:data.data

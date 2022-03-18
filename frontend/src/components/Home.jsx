@@ -26,7 +26,7 @@ function Home() {
              dispatch(clearErrors())
         }
 
-        dispatch(getProduct())
+        dispatch((getProduct()))
 
     },[dispatch,error,alert])
   return (

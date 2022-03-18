@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import Product from './Product'
 import MetaData from './MetaData'
-import { getProduct } from '../store/Actions/ProductAction'
+import { clearErrors, getProduct } from '../store/Actions/ProductAction'
  
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from './Loader'
@@ -22,7 +22,8 @@ function Home() {
     const {loading,products,error,productsCount} = useSelector(state=>state.products)
     useEffect(()=>{
         if(error){
-            return alert.error(error)
+             alert.error(error)
+             dispatch(clearErrors())
         }
 
         dispatch(getProduct())

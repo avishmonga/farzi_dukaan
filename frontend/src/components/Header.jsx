@@ -27,10 +27,11 @@ function Header() {
 export default Header
 
 const Container  = styled.div`
-background-color: #333333;
+background-color: tomato;
 align-items: center;
 color: white;
 width: 100%;
+padding: 1.5vmax;
 display: flex;
 justify-content: space-between;
 h1{

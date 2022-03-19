@@ -7,6 +7,7 @@ import Home from "./components/Home";
 import Loader from "./components/Loader";
 import ProductDetils from "./components/ProductDetils";
 import Products from "./components/Products";
+import LoginSignUp from "./components/user/LoginSignUp";
 function App() {
   useEffect(()=>{
     webfont.load({
@@ -25,6 +26,7 @@ function App() {
         <Route path="/product/:id" element={<ProductDetils />}></Route>
         <Route path="/products" element={<Products />}></Route>
         <Route path="/products/:keyword" element={<Products />}></Route>
+        <Route path="/login" element={<LoginSignUp />}></Route>
 
 
       </Routes>

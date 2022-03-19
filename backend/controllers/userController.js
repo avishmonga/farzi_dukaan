@@ -40,6 +40,7 @@ exports.loginUser = async (req, res, next) => {
     //is user is available in database
     if (!user) {
       // if not return invalid email
+      console.log("bakend se gya")
       return next(new ErrorHandler("Invlaid Email", 401));
     }
 

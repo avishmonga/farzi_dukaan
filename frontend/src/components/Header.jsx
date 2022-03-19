@@ -5,7 +5,24 @@ import { CgProfile } from 'react-icons/cg';
 import{Link} from "react-router-dom"
 import {AiOutlineSearch} from "react-icons/ai"
 import { useNavigate } from 'react-router-dom';
+//meterial UI
+import Box from '@mui/material/Box';
+import Avatar from '@mui/material/Avatar';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Tooltip from '@mui/material/Tooltip';
+import PersonAdd from '@mui/icons-material/PersonAdd';
+import Settings from '@mui/icons-material/Settings';
+import Logout from '@mui/icons-material/Logout';
+import Login from '@mui/icons-material/Login';
+import { positions } from 'react-alert';
+
 function Header() {
+    const isAuth = false;
     const navigate = useNavigate()
     function searchSubmitHandler(keyword){
         if(keyword.trim()){
@@ -16,6 +33,15 @@ function Header() {
 
     }
     const [keyword,setKeyword] = useState("")
+    //material UI
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
   return (
     <>
     <Container>
@@ -38,7 +64,85 @@ function Header() {
 
         <Icons>
             <li><a href=''><BsCart size={"30"} /></a></li>
-            <li><a href=''><CgProfile size={"30"} /></a></li>
+
+            {/* <li><a href=''><CgProfile size={"30"} /></a></li> */}
+            <Tooltip title="Account settings">
+          <IconButton
+            onClick={handleClick}
+            size="small"
+            sx={{ ml: 2 }}
+            aria-controls={open ? 'account-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+          >
+            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+          </IconButton>
+        </Tooltip>
+      {/* </Box> */}
+      <Menu
+        anchorEl={anchorEl}
+        id="account-menu"
+        open={open}
+        onClose={handleClose}
+        onClick={handleClose}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            overflow: 'visible',
+            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+            mt: 1.5,
+            '& .MuiAvatar-root': {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+            },
+            '&:before': {
+              content: '""',
+              display: 'block',
+              position: 'absolute',
+              top: 0,
+              right: 14,
+              width: 10,
+              height: 10,
+              bgcolor: 'background.paper',
+              transform: 'translateY(-50%) rotate(45deg)',
+              zIndex: 0,
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+          {isAuth?
+          <>
+          
+          <MenuItem onClick={()=>{
+              console.log("Profile")
+          }}>
+          <Avatar /> Profile
+        </MenuItem>
+       
+        <Divider />
+        <MenuItem  onClick={()=>{
+                navigate(`/logout`)
+            }}>
+          <ListItemIcon>
+            <Logout fontSize="small" />
+          </ListItemIcon>
+          Logout
+        </MenuItem>
+        </>:<><MenuItem onClick={()=>{
+                 navigate(`/login`)
+            }}>
+          <ListItemIcon>
+            <Login  fontSize="small" />
+          </ListItemIcon>
+          Login
+        </MenuItem>
+        </>}
+        
+      </Menu>
         </Icons>
 
     </Container>
@@ -49,6 +153,7 @@ function Header() {
 export default Header
 
 const Container  = styled.div`
+
 background-color: tomato;
 align-items: center;
 color: white;
@@ -56,6 +161,8 @@ max-width: 100%;
 padding: 1.5vmax;
 display: flex;
 justify-content: space-between;
+width:100%;
+
 h1{
     margin-left: 30px;
 }

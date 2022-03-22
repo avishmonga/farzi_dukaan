@@ -10,10 +10,16 @@ import {
   LOAD_USER_REQ,
   LOAD_USER_SUCCESS,
   LOGOUT_SUCCESS,
-  LOGOUT_FAIL
+  LOGOUT_FAIL,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_FAIL,
+  UPDATE_PROFILE_REQ,
+  UPDATE_PROFILE_RESET
+
 } from "../AcrionTypes/userActionTypes";
 
 export const userReducer = (state = { user: {} }, action) => {
+  console.log("loginAction",action)
   switch (action.type) {
     case LOGIN_REQ:
     case REGISTER_REQ:
@@ -58,6 +64,42 @@ export const userReducer = (state = { user: {} }, action) => {
         isAuthenticated: false,
         error: action.payload,
         user: null,
+        }
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+
+export const profileReducer = (state = {  }, action) => {
+  switch (action.type) {
+    case UPDATE_PROFILE_REQ:
+      return {
+        ...state,
+        loading: true,
+      };
+    case UPDATE_PROFILE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isUpdated: action.payload,
+      };
+    case UPDATE_PROFILE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+      case UPDATE_PROFILE_RESET:
+        return{
+          ...state,
+          isUpdated:false
         }
     case CLEAR_ERRORS:
       return {

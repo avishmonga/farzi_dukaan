@@ -16,6 +16,7 @@ function LoginSignUp() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { loading,error, isAuthenticated } = useSelector((store) => store.user);
+  console.log("isAuth",isAuthenticated)
   useEffect(()=>{
       if(error){
           alert.error(error)
@@ -25,7 +26,7 @@ function LoginSignUp() {
         navigate("/account")
       }
 
-  },[dispatch,error,alert,isAuthenticated])
+  },[dispatch,error,alert,isAuthenticated,navigate])
 
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import styled  from 'styled-components';
 import { BsCart } from 'react-icons/bs';
 import { CgProfile } from 'react-icons/cg';
@@ -38,6 +38,9 @@ function Header() {
         }
 
     }
+    useEffect(()=>{
+
+    },[isAuthenticated])
     const [keyword,setKeyword] = useState("")
     //material UI
     const [anchorEl, setAnchorEl] = React.useState(null);

@@ -103,6 +103,18 @@ exports.updateProfile = async (req,res,next) =>{
       email:req.body.email
     }
 
+    if(req.user.profilePic!=""){
+      const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar,{
+        folder:"avatars",
+        width:150,
+        crop:"scale"
+        })
+        newUserData.profilePic={
+          publicId:myCloud.public_id,
+          url:myCloud.secure_url
+        }
+    }
+
     const user = await User.findByIdAndUpdate(req.user.id,newUserData,{
       new:true,
       runValidators:true,

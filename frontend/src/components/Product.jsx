@@ -12,7 +12,6 @@ function Product({product}) {
         value:product.ratings,
         isHalf:true
     }
-    console.log(product)
   return (
     <Wrapper className='card' to={`product/${product._id}`}>
         <Container>

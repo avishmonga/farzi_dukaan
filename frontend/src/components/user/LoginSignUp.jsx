@@ -1,9 +1,9 @@
 import React, { useRef, useState,useEffect } from "react";
 import { useSelector,useDispatch } from "react-redux";
-import { clearErorrs,login } from "../../store/Actions/userAction";
+import { clearErorrs,login,register } from "../../store/Actions/userAction";
 import Loader from "../Loader";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import FaceIcon from "@mui/icons-material/Face"
@@ -14,14 +14,18 @@ function LoginSignUp() {
   const registerTab = useRef(null);
   const switcherTab = useRef(null);
   const dispatch = useDispatch()
-  const { loading,error } = useSelector((store) => store.user);
+  const navigate = useNavigate()
+  const { loading,error, isAuthenticated } = useSelector((store) => store.user);
   useEffect(()=>{
       if(error){
           alert.error(error)
           dispatch(clearErorrs())
       }
+      if(isAuthenticated){
+        navigate("/account")
+      }
 
-  },[dispatch,error,alert])
+  },[dispatch,error,alert,isAuthenticated])
 
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
@@ -31,7 +35,7 @@ function LoginSignUp() {
       password:""
   })
   const {name,email,password} = user;
-  const [avtaar,setAvtaar] = useState()
+  const [avatar,setAvtaar] = useState()
   const [avatarPreview,setAvatarPreview] = useState("/Profile.png")
 
 
@@ -63,7 +67,8 @@ function LoginSignUp() {
       myform.set("name",name)
       myform.set("email",email)
       myform.set("password",password)
-      console.log("SignUp Submit");
+      myform.set("avatar",avatar)
+      dispatch(register(myform))
   }
   const registerDataChange = (e)=>{
       if(e.target.name=="avatar"){
@@ -84,6 +89,7 @@ function LoginSignUp() {
   
   return (
     <>
+    {loading?<Loader />:<>
       <Container>
         <Box>
           <ToggleBox>
@@ -177,6 +183,8 @@ function LoginSignUp() {
           </form>
         </Box>
       </Container>
+    </>}
+    
     </>
   );
 }

@@ -8,8 +8,12 @@ import Loader from "./components/Loader";
 import ProductDetils from "./components/ProductDetils";
 import Products from "./components/Products";
 import LoginSignUp from "./components/user/LoginSignUp";
+import { useDispatch } from "react-redux";
+import { loadUser } from "./store/Actions/userAction";
 function App() {
+  const dispatch = useDispatch()
   useEffect(()=>{
+    dispatch(loadUser())
     webfont.load({
       google:{
         families:["Roboto","Droid Sans"]

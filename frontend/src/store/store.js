@@ -8,8 +8,6 @@ const reducer = combineReducers({
     products:productReducer,
     productDetail:detalProductReducer,
     user:userReducer,
-
-
 })
 let init = {}
 

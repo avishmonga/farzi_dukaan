@@ -3,9 +3,16 @@ const User = require("../models/userModel");
 const sendToken = require("../utils/jwttoken");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
+const cloudinary = require("cloudinary")
+
 //SignUP
 exports.createUser = async (req, res, next) => {
   try {
+    const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar,{
+    folder:"avatars",
+    width:150,
+    crop:"scale"
+    })
     const { name, email, password } = req.body;
 
     const user = await User.create({
@@ -13,13 +20,14 @@ exports.createUser = async (req, res, next) => {
       email,
       password,
       profilePic: {
-        publicId: "sampleID",
-        url: "sampleURL",
+        publicId: myCloud.public_id,
+        url: myCloud.secure_url,
       },
     });
 
     sendToken(user, 201, res);
   } catch (err) {
+    console.log("err",err)
     return next(new ErrorHandler(err), 500);
   }
 };

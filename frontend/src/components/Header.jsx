@@ -5,6 +5,7 @@ import { CgProfile } from 'react-icons/cg';
 import{Link} from "react-router-dom"
 import {AiOutlineSearch} from "react-icons/ai"
 import { useNavigate } from 'react-router-dom';
+import { useAlert } from 'react-alert';
 //meterial UI
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -20,10 +21,15 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import Login from '@mui/icons-material/Login';
 import { positions } from 'react-alert';
-
+import { useDispatch, useSelector } from 'react-redux';
+import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import { logout } from '../store/Actions/userAction';
 function Header() {
-    const isAuth = false;
     const navigate = useNavigate()
+    const alert= useAlert()
+    const { isAuthenticated, user } = useSelector((store) => store.user);
+    const dispatch = useDispatch()
     function searchSubmitHandler(keyword){
         if(keyword.trim()){
             navigate(`/products/${keyword}`)
@@ -75,7 +81,10 @@ function Header() {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+            
+            <img className='profile-pic' src = { isAuthenticated?user.profilePic.url? user.profilePic.url : "./Profile.png":"./Profile.png" } /> 
+            
+            {/* <Avatar sx={{ width: 32, height: 32 }}></Avatar> */}
           </IconButton>
         </Tooltip>
       {/* </Box> */}
@@ -114,18 +123,40 @@ function Header() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-          {isAuth?
+          {isAuthenticated?
           <>
+
+          
+          
           
           <MenuItem onClick={()=>{
-              console.log("Profile")
+               navigate(`/account`)
           }}>
-          <Avatar /> Profile
+            <ListItemIcon>
+            <Avatar sx={{fontSize:28}} />
+            </ListItemIcon>Profile
+        </MenuItem>
+        {user.role=="admin"?<MenuItem onClick={()=>{
+              navigate(`/admin/dashboard`)
+          }}>
+            <ListItemIcon>
+            <DashboardIcon sx={{fontSize:28}} />
+            </ListItemIcon>Dashboard
+        </MenuItem>:<></>}
+          <MenuItem onClick={()=>{
+              navigate(`/orders`)
+          }}>
+           <ListItemIcon>
+            <AssignmentRoundedIcon sx={{fontSize:28}} />
+          </ListItemIcon>
+          Orders
         </MenuItem>
        
         <Divider />
         <MenuItem  onClick={()=>{
-                navigate(`/logout`)
+                dispatch(logout())
+                alert.success("Logout Successfully")
+                
             }}>
           <ListItemIcon>
             <Logout fontSize="small" />
@@ -162,7 +193,11 @@ padding: 1.5vmax;
 display: flex;
 justify-content: space-between;
 width:100%;
-
+.profile-pic{
+  width: 40px;
+  border-radius: 100%;
+  align-self: center;
+}
 h1{
     margin-left: 30px;
 }

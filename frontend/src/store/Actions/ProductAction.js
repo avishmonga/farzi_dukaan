@@ -21,7 +21,6 @@ import {
               link = `/api/products?keyword=${keyword}&page=${currPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}&ratings[gte]=${ratings}`
           }
           const data = await axios.get(link)
-          console.log("data",data)
           dispatch({
               type:ALL_PRODUCT_SUCCESS,
               payload:data.data
@@ -42,7 +41,6 @@ import {
             type:PRODUCT_DETAILS_REQ
         })
         const data = await axios.get(`/api/product/${id}`)
-        console.log("data",data)
         dispatch({
             type:PRODUCT_DETAILS_SUCCESS,
             payload:data.data

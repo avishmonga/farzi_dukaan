@@ -19,7 +19,7 @@ exports.getallproducts = async (req, res) => {
     res.status(200).send({ success:true, products, productsCount,resultPerPage });
   } catch {
     console.log("Something Went Wrong getProduct");
-    res.status(400).json({ message: "Something Went Wrong" });
+    res.status(400).send({ message: "Something Went Wrong" });
   }
 };
 

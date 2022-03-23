@@ -1,83 +1,48 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { clearErorrs, loadUser, login, updateProfile } from "../../store/Actions/userAction";
+import { clearErorrs, forgotPassword } from "../../store/Actions/userAction";
 import Loader from "../Loader";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import FaceIcon from "@mui/icons-material/Face";
 import { useAlert } from "react-alert";
-import { UPDATE_PROFILE_RESET } from '../../store/AcrionTypes/userActionTypes';
-function UpdateProfile() {
-  const dispatch = useDispatch();
+
+import MailOutlineIcon  from '@mui/icons-material/MailOutline';
+function ForgotPassword() {
+    const dispatch = useDispatch();
   const alert = useAlert();
   const navigate = useNavigate()
-  const { user } = useSelector((store) => store.user);
-  const {error,isUpdated,loading}  = useSelector((store)=>store.profile)
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-
-  const [avatar, setAvtaar] = useState();
-  const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
+  const {error,message,loading}  = useSelector((store)=>store.forgotPassword)
+const [email,setEmail] = useState("")
 
   useEffect(() => {
-      if(user){
-          setName(user.name)
-          setEmail(user.email)
-          setAvatarPreview(user.profilePic.url)
-      }
+      
     if (error) {
       alert.error(error);
       dispatch(clearErorrs());
     }
-    if (isUpdated) {
-      alert.success("Updated SuccessFully")
-      dispatch(loadUser())
-      navigate("/account")
-      dispatch({type:UPDATE_PROFILE_RESET})
+    if (message) {
+      alert.success(message)
     }
-  }, [dispatch, error, alert, navigate,user,isUpdated]);
+  }, [dispatch, error, alert, message]);
 
-  const updateProfileSubmit = (e) => {
+  const forgotPasswordSubmit = (e) => {
     e.preventDefault();
     const myform = new FormData();
-    myform.set("name", name);
     myform.set("email", email);
-    myform.set("avatar", avatar);
-    dispatch(updateProfile(myform));
+    dispatch(forgotPassword(myform));
   };
-  const updateProfileDataChange = (e) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (reader.readyState == 2) {
-          setAvatarPreview(reader.result);
-          setAvtaar(reader.result);
-        }
-      };
-      reader.readAsDataURL(e.target.files[0]);
-  };
-  return <>
+ 
+  return (
+    <>
   {loading? <Loader />:<>
   <Container>
 <Box>
-    <h2>Update Profile</h2>
-<form className="updateprofileform" 
-          encType="multipart/form-data"
-          onSubmit={updateProfileSubmit}
+    <h2>Forgot Password</h2>
+<form className="forgotpasswordform" 
+          onSubmit={forgotPasswordSubmit}
           >
-              <div className="updateprofilename">
-                  <FaceIcon />
-                  <input
-                  type="text"
-                  placeholder="Enter Your Name"
-                  required
-                  name="name"
-                  value={name}
-                  onChange={(e)=>setName(e.target.value)}
-                  />
-
-              </div>
-              <div className="updateprofileemail">
+               
+               <div className="forgotpasswordemail">
                   <MailOutlineIcon />
                   <input type="email"
                   placeholder="Enter Your Email"
@@ -89,20 +54,11 @@ function UpdateProfile() {
 
               </div>
               
-              <div id="updateprofileimage">
-                  <img src={avatarPreview} alt="Avatar Preview" />
-                  <input 
-                  type="file"
-                  name="avatar"
-                  accept="image/*"
-                  onChange={updateProfileDataChange}
-                  />
-
-              </div>
+              
               <input 
               type="submit"
-              value="updateProfile"
-              className="updateprofilebtn"
+              value="Change Password"
+              className="forgotpasswordbtn"
               />
 
           </form>
@@ -110,10 +66,10 @@ function UpdateProfile() {
   </Container>
   </>}
   </>
+  )
 }
 
-export default UpdateProfile;
-
+export default ForgotPassword
 const Container = styled.div`
   width: 100vw;
   height: 90vh;
@@ -124,7 +80,7 @@ const Container = styled.div`
   background-color: rgb(231, 231, 231);
 
 
-.updateprofilebtn{
+.forgotpasswordbtn{
 
     border: none;
     background-color: tomato;
@@ -146,49 +102,16 @@ const Container = styled.div`
 
   }
 
-#signupimage{
-    align-items: center;
-    img{
-        width:3vmax;
-    border-radius: 100%;
-    margin-right: 4px;
-    }
-    input{
-        display: flex;
-    padding:0;
 
-    &::file-selector-button{
-        cursor:pointer;
-        width: 100%;
-        height: 7vh;
-        z-index: 2;
-        margin: 0;
-        border: none;
-        font: 400 1vmax cursive "Roboto";
-        transition: all 0.5s;
-        padding: 0 1vmax;
-        color:rgba(0,0,0,0.623);
-        background-color: rgb(255,255,255);
-
-        &:hover{
-            background-color: rgb(235,235,235);
-        }
-
-
-
-    }
-    }
-  
-    
-}
-  .updateprofileform {
+  .forgotpasswordform {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: auto;
+    margin-top: -5%;
     padding: 2vmax;
     justify-content: space-evenly;
-    height: 90%;
+    height: 40%;
     transition: all 0.5s;
 img{
     width: 10vmax;
@@ -236,7 +159,7 @@ img{
   @media screen and (max-width:600px) {
     background-color: white;
     
-.updateprofileform{
+.forgotpasswordform{
     padding:5vmax;
     div{
 
@@ -252,18 +175,8 @@ img{
         font-size: 2vmax;
     }
 }
-#updateprofileimage{
-     
-     img{
-       width:8vmax;
-       &::file-selector-button{
-height: 7vh;
-padding:1.8vmax;
-       }
-     }
-     
- }
- .updateprofilebtn{
+
+ .forgotpasswordbtn{
      font: 300 1.9vmax "Roboto" ;
      padding: 1.8vmax;
  }
@@ -277,7 +190,8 @@ const Box = styled.div`
   /* margin-top: -10%; */
   background-color: white;
   width: 35vw;
-  height: 70vh;
+  height: 50vh;
+  padding-top: 4%;
   box-sizing: border-box;
   overflow: hidden;
   @media screen and (max-width:600px) {

@@ -14,7 +14,14 @@ import {
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_FAIL,
   UPDATE_PROFILE_REQ,
-  UPDATE_PROFILE_RESET
+  UPDATE_PROFILE_RESET,
+  UPDATE_PASSWORD_FAIL,
+  UPDATE_PASSWORD_REQ,
+  UPDATE_PASSWORD_RESET,
+  UPDATE_PASSWORD_SUCCESS,
+  FORGOT_PASSWORD_FAIL,
+  FORGOT_PASSWORD_REQ,
+  FORGOT_PASSWORD_SUCCESS,
 
 } from "../AcrionTypes/userActionTypes";
 
@@ -68,6 +75,39 @@ export const updateProfile = (userData) => async(dispatch)=>{
     }
 
 
+}
+//UPDATE PASSWORD
+export const updatePassword = (passwords) => async(dispatch)=>{
+
+    try {
+        dispatch({type:UPDATE_PASSWORD_REQ})
+        const config = {header:{"Content-type":"application/json"}}
+        const data= await axios.patch("/api/password/update", passwords , config)
+        dispatch({type:UPDATE_PASSWORD_SUCCESS, payload:data.data.success})
+    } catch (error) {
+        dispatch({type:UPDATE_PASSWORD_FAIL,payload:"Invalid Details"})
+    }
+
+
+}
+//forgotPassword
+export const forgotPassword = (email) => async(dispatch)=>{
+    const config = {header:{"Content-type":"application/json"}}
+    try {
+        dispatch({type:FORGOT_PASSWORD_REQ})
+
+        const data= await axios.post("/api/password/forgot",
+        email,
+        config
+        )
+        console.log("loginDAta",data)
+
+        dispatch({type:FORGOT_PASSWORD_SUCCESS,payload:data.data.message})
+        
+    } catch (error) {
+        console.log("error",error)
+        dispatch({type:FORGOT_PASSWORD_FAIL,payload:"Invalid User Details"})
+    }
 }
 
 //loadUser

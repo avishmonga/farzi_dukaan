@@ -12,6 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "./store/Actions/userAction";
 import Profile from "./components/user/Profile"
 import UpdateProfile from './components/user/UpdateProfile';
+import UpdatePassword from './components/user/UpdatePassword';
+import ForgotPassword from "./components/user/ForgotPassword";
 function App() {
   const {isAuthenticated} = useSelector((store)=>store.user)
 
@@ -37,7 +39,8 @@ function App() {
         <Route path="/login" element={<LoginSignUp />}></Route>
         {isAuthenticated &&  <Route path="/account" element={<Profile />}></Route>}
         {isAuthenticated &&  <Route path="/me/update" element={<UpdateProfile />}></Route>}
-       
+        {isAuthenticated &&  <Route path="/password/update" element={<UpdatePassword />}></Route>}
+        <Route path="/password/forgot" element={<ForgotPassword />}></Route>
 
 
       </Routes>

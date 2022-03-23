@@ -123,7 +123,7 @@ function LoginSignUp() {
                 onChange={(e) => setLoginPassword(e.target.value)}
               />
             </div>
-            <Link to="/forgot/password">Reset Password</Link>
+            <Link to="/password/forgot">Reset Password</Link>
 
             <input type="submit" value="Login" className="loginbtn" />
           </form>

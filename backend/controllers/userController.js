@@ -298,16 +298,16 @@ exports.updatePassword = async (req, res, next) => {
   try {
     const user = await User.findById(req.user._id).select("+password");
 
-    const isPass = await user.comparePass(req.body.oldpassword);
+    const isPass = await user.comparePass(req.body.oldPassword);
     if (!isPass) {
       return next(new ErrorHandler("old password is incorrect", 401));
     }
 
-    if (req.body.newpassword != req.body.confirmpassword) {
+    if (req.body.newPassword != req.body.confirmPassword) {
       return next(new ErrorHandler("PassWord should be Matched", 404));
     }
 
-    user.password = req.body.newpassword
+    user.password = req.body.newPassword
     await user.save()
 
     sendToken(user,200,res)

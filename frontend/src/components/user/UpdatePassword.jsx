@@ -1,108 +1,98 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { clearErorrs, loadUser, login, updateProfile } from "../../store/Actions/userAction";
+import { clearErorrs, updatePassword } from "../../store/Actions/userAction";
 import Loader from "../Loader";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-import MailOutlineIcon from "@mui/icons-material/MailOutline";
-import FaceIcon from "@mui/icons-material/Face";
 import { useAlert } from "react-alert";
-import { UPDATE_PROFILE_RESET } from '../../store/AcrionTypes/userActionTypes';
-function UpdateProfile() {
-  const dispatch = useDispatch();
+import { UPDATE_PASSWORD_RESET } from '../../store/AcrionTypes/userActionTypes';
+import LockOpenIcon from "@mui/icons-material/LockOpen";
+import VpnKeyIcon from "@mui/icons-material/VpnKey"
+function UpdatePassword() {
+    const dispatch = useDispatch();
   const alert = useAlert();
   const navigate = useNavigate()
-  const { user } = useSelector((store) => store.user);
   const {error,isUpdated,loading}  = useSelector((store)=>store.profile)
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-
-  const [avatar, setAvtaar] = useState();
-  const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
-
+const [oldPassword,setOldPassword] = useState("")
+const [confirmPassword,setConfirmPassword] = useState("")
+const [newPassword,setNewPassword] = useState("")
   useEffect(() => {
-      if(user){
-          setName(user.name)
-          setEmail(user.email)
-          setAvatarPreview(user.profilePic.url)
-      }
+      
     if (error) {
       alert.error(error);
       dispatch(clearErorrs());
     }
     if (isUpdated) {
       alert.success("Updated SuccessFully")
-      dispatch(loadUser())
       navigate("/account")
-      dispatch({type:UPDATE_PROFILE_RESET})
+      dispatch({type:UPDATE_PASSWORD_RESET})
     }
-  }, [dispatch, error, alert, navigate,user,isUpdated]);
+  }, [dispatch, error, alert, navigate,isUpdated]);
 
-  const updateProfileSubmit = (e) => {
+  const updatePasswordSubmit = (e) => {
     e.preventDefault();
     const myform = new FormData();
-    myform.set("name", name);
-    myform.set("email", email);
-    myform.set("avatar", avatar);
-    dispatch(updateProfile(myform));
+    myform.set("oldPassword", oldPassword);
+    myform.set("newPassword", newPassword);
+    myform.set("confirmPassword", confirmPassword);
+    dispatch(updatePassword(myform));
   };
-  const updateProfileDataChange = (e) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        if (reader.readyState == 2) {
-          setAvatarPreview(reader.result);
-          setAvtaar(reader.result);
-        }
-      };
-      reader.readAsDataURL(e.target.files[0]);
-  };
-  return <>
+ 
+  return (
+    <>
   {loading? <Loader />:<>
   <Container>
 <Box>
-    <h2>Update Profile</h2>
-<form className="updateprofileform" 
+    <h2>Update Password</h2>
+<form className="updatepasswordform" 
           encType="multipart/form-data"
-          onSubmit={updateProfileSubmit}
+          onSubmit={updatePasswordSubmit}
           >
-              <div className="updateprofilename">
-                  <FaceIcon />
-                  <input
-                  type="text"
-                  placeholder="Enter Your Name"
+               <div className="signuppassword">
+                  <VpnKeyIcon />
+                  <input type="password"
+                  placeholder="Enter Your Current Password"
                   required
-                  name="name"
-                  value={name}
-                  onChange={(e)=>setName(e.target.value)}
+                  name="oldpassword"
+                  value={oldPassword}
+                  onChange={(e)=>setOldPassword(e.target.value)}
                   />
 
               </div>
-              <div className="updateprofileemail">
-                  <MailOutlineIcon />
-                  <input type="email"
-                  placeholder="Enter Your Email"
+
+
+              <div className="signuppassword">
+                  <LockOpenIcon />
+                  <input type="password"
+                  placeholder="Enter Your New Password Here"
                   required
-                  name="email"
-                  value={email}
-                  onChange={(e)=>setEmail(e.target.value)}
+                  name="password"
+                  value={newPassword}
+                  onChange={(e)=>setNewPassword(e.target.value)}
                   />
 
               </div>
+
+
+
+              <div className="signuppassword">
+                  <LockOpenIcon />
+                  <input type="password"
+                  placeholder="Confirm Your Password"
+                  required
+                  name="password"
+                  value={confirmPassword}
+                  onChange={(e)=>setConfirmPassword(e.target.value)}
+                  />
+
+              </div>
+            
               
-              <div id="updateprofileimage">
-                  <img src={avatarPreview} alt="Avatar Preview" />
-                  <input 
-                  type="file"
-                  name="avatar"
-                  accept="image/*"
-                  onChange={updateProfileDataChange}
-                  />
-
-              </div>
+              
               <input 
               type="submit"
-              value="updateProfile"
-              className="updateprofilebtn"
+              value="Change Password"
+              className="updatepasswordbtn"
               />
 
           </form>
@@ -110,10 +100,10 @@ function UpdateProfile() {
   </Container>
   </>}
   </>
+  )
 }
 
-export default UpdateProfile;
-
+export default UpdatePassword
 const Container = styled.div`
   width: 100vw;
   height: 90vh;
@@ -124,7 +114,7 @@ const Container = styled.div`
   background-color: rgb(231, 231, 231);
 
 
-.updateprofilebtn{
+.updatepasswordbtn{
 
     border: none;
     background-color: tomato;
@@ -146,46 +136,13 @@ const Container = styled.div`
 
   }
 
-#signupimage{
-    align-items: center;
-    img{
-        width:3vmax;
-    border-radius: 100%;
-    margin-right: 4px;
-    }
-    input{
-        display: flex;
-    padding:0;
 
-    &::file-selector-button{
-        cursor:pointer;
-        width: 100%;
-        height: 7vh;
-        z-index: 2;
-        margin: 0;
-        border: none;
-        font: 400 1vmax cursive "Roboto";
-        transition: all 0.5s;
-        padding: 0 1vmax;
-        color:rgba(0,0,0,0.623);
-        background-color: rgb(255,255,255);
-
-        &:hover{
-            background-color: rgb(235,235,235);
-        }
-
-
-
-    }
-    }
-  
-    
-}
-  .updateprofileform {
+  .updatepasswordform {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: auto;
+    margin-top: -5%;
     padding: 2vmax;
     justify-content: space-evenly;
     height: 90%;
@@ -236,7 +193,7 @@ img{
   @media screen and (max-width:600px) {
     background-color: white;
     
-.updateprofileform{
+.updatepasswordform{
     padding:5vmax;
     div{
 
@@ -252,18 +209,8 @@ img{
         font-size: 2vmax;
     }
 }
-#updateprofileimage{
-     
-     img{
-       width:8vmax;
-       &::file-selector-button{
-height: 7vh;
-padding:1.8vmax;
-       }
-     }
-     
- }
- .updateprofilebtn{
+
+ .updatepasswordbtn{
      font: 300 1.9vmax "Roboto" ;
      padding: 1.8vmax;
  }

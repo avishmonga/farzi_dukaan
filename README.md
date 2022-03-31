@@ -17,9 +17,7 @@ Profile Updation
 
 <img style = "width:1000px" src="https://user-images.githubusercontent.com/80064807/160992887-b5566644-4a9d-42ec-a605-97e78c7f4455.gif" />
 
-
-**Detail**
-
+**LogIn SignUp**
 <img style = "width:1000px" src="https://user-images.githubusercontent.com/80064807/160992893-f2b8d0dc-54e7-4f87-82a4-388e63a402c2.gif" />
 
 **Others**
